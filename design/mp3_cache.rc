@@ -1,0 +1,94 @@
+Magic 271485
+Revision Verdi_R-2020.12-SP1-1
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 0 25 2160 425 314 118
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/home/koepcke2/Desktop/Malfunctioning-CPU/mp4/sim/dump.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 706619.605678 843282.712484
+cursor 735000.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 0
+; marker line index
+markerPos 14
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "G1"
+activeDirFile "" "/home/koepcke2/Desktop/Malfunctioning-CPU/mp4/sim/dump.fsdb"
+addSignal -h 15 /mp4_tb/dut/datapath/IF/clk
+addSignal -h 15 -holdScope icache_instr_addr[31:0]
+addSignal -h 15 -holdScope instr_i[31:0]
+addSignal -h 15 -holdScope pcmux_sel[1:0]
+addSignal -h 15 -UNSIGNED /mp4_tb/dut/arbiter/cur_state[31:0]
+addSignal -h 15 /mp4_tb/dut/datapath/hazard_detection/condition[3:0]
+addSignal -h 15 -holdScope dcache_resp
+addSignal -h 15 -holdScope dcache_read
+addSignal -h 15 -holdScope icache_resp
+addSignal -h 15 -UNSIGNED /mp4_tb/dut/icache/control/next_state[31:0]
+addSignal -h 15 -holdScope cache_resp
+addSignal -h 15 /mp4_tb/dut/icache/array_rdata[255:0]
+addSignal -h 15 -holdScope mem_address[31:0]
+addSignal -h 15 -holdScope pmem_address[31:0]
+addGroup "G2"
+addGroup "G3"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+activeDirFile "" "/home/koepcke2/Desktop/Malfunctioning-CPU/mp4/sim/dump.fsdb"
+
+GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
+getSignalForm close
+
+"/mp4_tb"
+"/mp4_tb/dut"
+"/mp4_tb/dut/datapath"
+"/mp4_tb/dut/datapath/WB"
+"/mp4_tb/dut/datapath/WB/RVFI"
+
+SCOPE_LIST_BEGIN
+"/mp4_tb"
+"/mp4_tb/dut/datapath"
+"/mp4_tb/dut/datapath/EX"
+"/mp4_tb/dut/datapath/Reg1"
+"/mp4_tb/dut/datapath/Reg2"
+"/mp4_tb/dut/datapath/Reg3"
+"/mp4_tb/dut/datapath/Reg4"
+"/mp4_tb/dut/datapath/forwarding"
+"/mp4_tb/dut/datapath/WB"
+SCOPE_LIST_END
+
+GETSIGNALFORM_SCOPE_HIERARCHY_END
+
+

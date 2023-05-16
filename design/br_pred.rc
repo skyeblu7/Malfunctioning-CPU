@@ -1,0 +1,123 @@
+Magic 271485
+Revision Verdi_R-2020.12-SP1-1
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 0 25 2138 478 314 118
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/home/koepcke2/Desktop/Malfunctioning-CPU/mp4/sim/dump.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 79571909.276771 81034060.197783
+cursor 90605000.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 0
+; marker line index
+markerPos 18
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "G1"
+activeDirFile "" "/home/koepcke2/Desktop/Malfunctioning-CPU/mp4/sim/dump.fsdb"
+addSignal -h 15 /mp4_tb/dut/datapath/BP/pc_bht_idx[5:2]
+addSignal -expanded -h 15 -holdScope bht[0:15]
+addSignal -h 15 -UNSIGNED -BIN -holdScope bht[0][4:0]
+addSignal -h 15 -UNSIGNED -BIN -holdScope bht[1][4:0]
+addSignal -h 15 -UNSIGNED -BIN -holdScope bht[2][4:0]
+addSignal -h 15 -holdScope bht[3][4:0]
+addSignal -h 15 -holdScope bht[4][4:0]
+addSignal -h 15 -holdScope bht[5][4:0]
+addSignal -h 15 -holdScope bht[6][4:0]
+addSignal -h 15 -holdScope bht[7][4:0]
+addSignal -h 15 -holdScope bht[8][4:0]
+addSignal -h 15 -holdScope bht[9][4:0]
+addSignal -h 15 -holdScope bht[10][4:0]
+addSignal -h 15 -holdScope bht[11][4:0]
+addSignal -h 15 -holdScope bht[12][4:0]
+addSignal -h 15 -holdScope bht[13][4:0]
+addSignal -h 15 -holdScope bht[14][4:0]
+addSignal -h 15 -holdScope bht[15][4:0]
+addSignal -h 15 /mp4_tb/dut/datapath/IF/clk
+addSignal -h 15 -holdScope icache_instr_addr[31:0]
+addSignal -h 15 -holdScope instr_i[31:0]
+addSignal -h 15 -holdScope pcmux_sel[1:0]
+addSignal -h 15 /mp4_tb/dut/datapath/Reg2/clk
+addSignal -h 15 /mp4_tb/dut/datapath/ID/rvfi_sigs_o_ID.pc_rdata[31:0]
+addSignal -h 15 -holdScope rvfi_sigs_o_ID.inst[31:0]
+addSignal -h 15 -UNSIGNED -holdScope rvfi_sigs_o_ID.opcode[6:0]
+addSignal -h 15 -holdScope rvfi_sigs_o_ID.pc_wdata[31:0]
+addSignal -h 15 /mp4_tb/dut/datapath/Reg4/clk
+addSignal -h 15 /mp4_tb/dut/datapath/EX/rvfi_sigs_o_EX.pc_rdata[31:0]
+addSignal -h 15 -holdScope rvfi_sigs_o_EX.inst[31:0]
+addSignal -h 15 /mp4_tb/dut/datapath/hazard_detection/mispredict
+addSignal -h 15 -holdScope is_stalling
+addSignal -h 15 -UNSIGNED /mp4_tb/dut/datapath/EX/rvfi_sigs_o_EX.opcode[6:0]
+addSignal -h 15 -holdScope alu_out[31:0]
+addSignal -h 15 -holdScope rvfi_sigs_data.pc_wdata[31:0]
+addSignal -h 15 /mp4_tb/dut/datapath/Reg4/clk
+addSignal -h 15 /mp4_tb/dut/datapath/MEM/rvfi_sigs_o_MEM.pc_rdata[31:0]
+addSignal -h 15 -holdScope rvfi_sigs_o_MEM.inst[31:0]
+addSignal -h 15 -UNSIGNED -holdScope rvfi_sigs_o_MEM.opcode[6:0]
+addSignal -h 15 /mp4_tb/dut/datapath/IF/clk
+addSignal -h 15 /mp4_tb/dut/datapath/WB/rvfi_sigs_data.pc_rdata[31:0]
+addSignal -h 15 -holdScope rvfi_sigs_data.inst[31:0]
+addSignal -h 15 -UNSIGNED -holdScope rvfi_sigs_data.opcode[6:0]
+addGroup "G2"
+addGroup "G3"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+activeDirFile "" "/home/koepcke2/Desktop/Malfunctioning-CPU/mp4/sim/dump.fsdb"
+
+GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
+getSignalForm close
+
+"/mp4_tb"
+"/mp4_tb/dut"
+"/mp4_tb/dut/datapath"
+"/mp4_tb/dut/datapath/WB"
+"/mp4_tb/dut/datapath/WB/RVFI"
+
+SCOPE_LIST_BEGIN
+"/mp4_tb"
+"/mp4_tb/dut/datapath"
+"/mp4_tb/dut/datapath/EX"
+"/mp4_tb/dut/datapath/Reg1"
+"/mp4_tb/dut/datapath/Reg2"
+"/mp4_tb/dut/datapath/Reg3"
+"/mp4_tb/dut/datapath/Reg4"
+"/mp4_tb/dut/datapath/forwarding"
+"/mp4_tb/dut/datapath/WB"
+SCOPE_LIST_END
+
+GETSIGNALFORM_SCOPE_HIERARCHY_END
+
+
