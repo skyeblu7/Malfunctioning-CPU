@@ -7,7 +7,17 @@
   * [Prerequisites](#prerequisites)
   * [Build](#installation)
   * [Generate Analysis Files](#generate-analysis-files)
-  * [Design](#design)
+* [Details](#details)
+  * [icache/dcache](#icachedcache)
+  * [Arbiter](#arbiter)
+  * [5 Stage Pipeline](#5-stage-pipeline)
+  * [L2 Cache](#l2-cache)
+  * [Branch Prediction](#branch-prediction)
+  * [M-Extension](#m-extension)
+  * [Performance Metrics](#performance-metrics)
+  * [Detailed Datapath](#detailed-datapath)
+* [Performance Analysis and Design Evolution](#performance-analysis-and-design-evolusion)
+* [Improvement Possibilities](#improvement-possibilities)
 * [Acknowledgements](#acknowledgements)
 
 
@@ -15,8 +25,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![high-level](high-level%20block%20diagram.png)
-
+![high-level-diagram](high-level.png)
 
 This is an impementation of a five stage pipelined risc-v 32i+m-extension processor with hazard detection, forwarding and branch prediction. The Memory hierarchy includes a direct mapped i-cache, direct mapped d-cache, an arbiter that coordinates memory accesses and a 4-way set associative L2 cache.
 
@@ -67,7 +76,10 @@ To view timing and area analysis, you need to synthesize the design. They will b
 make synth
 ```
 
-[show timing analysis report]
+the timing report looks like this:
+
+![timing-report](timing-report.png)
+It shows you the critical path (it's cut off here), the time allowed for the critical path to resolve, and the time it actually took for the critical path to resolve (the difference between what we allow and what happened is the slack).
 
 [show area analysis report]
 
@@ -80,34 +92,50 @@ make report_power ASM=testcode/comp/comp2_rv32i.elf
 [show power analysis report]
 
 
-### Details:
-* i-cache/d-cache
-* arbiter
-* 5 stage pipeline
-* L2 cache
-* branch prediction
-* M-extension
-* Performance metrics
+# Details:
+
+### icache/dcache
+
+The icache and dcache are both direct mapped with 32 byte cachelines with 16 lines, giving a total size of 512 bytes. The caches are separate which allow simultaneous access by the cpu. The icache is used by the instruction fetch stage and the dcache is used by the memory stage. Both caches are connected to the arbiter which determines which cache accesses memory and resolves simultaneous memory requests.
+
+### Arbiter
+
+
+### 5 Stage Pipeline
+
+
+
+### L2 Cache
+
+
+
+### Branch Prediction
+
+
+### M-Extension
+
+
+### Performance Metrics
 
 
 
 
-In-depth Block Diagram:
+### Detailed Datapath:
 
 
 [show block diagram here]
 
 
-### Performance analysis and design evolution:
+# Performance Analysis and Design Evolution:
 
 
 
-### Improvement Possibilities
+# Improvement Possibilities
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
+# Acknowledgements
 * [Readme Template](https://github.com/othneildrew/Best-README-Template)
 
 
