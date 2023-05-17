@@ -16,7 +16,7 @@
   * [M-Extension](#m-extension)
   * [Performance Metrics](#performance-metrics)
   * [Detailed Datapath](#detailed-datapath)
-* [Performance Analysis and Design Evolution](#performance-analysis-and-design-evolusion)
+* [Performance Analysis and Design Evolution](#performance-analysis-and-design-evolution)
 * [Improvement Possibilities](#improvement-possibilities)
 * [Acknowledgements](#acknowledgements)
 
@@ -56,7 +56,7 @@ Contact Synopsys
 
 ### Build
 
-You can build any of the .elf or .s files in the /design/testcode/ directory. Large assembly files exist under the /design/testcode/comp/ folder for greater coverage and coremark files exist under /design/testcode/coremark. comp/comp2_rv32im.elf and coremark/coremark_rv32im.elf include the m-extension, note the 'm' before the '.elf'. You must be in the 'Design' folder to compile any files.
+You can build any of the .elf or .s files in the /design/testcode/ directory. Large assembly files exist under the /design/testcode/comp/ folder for greater coverage and coremark files exist under /design/testcode/coremark. comp/comp2_rv32im.elf and coremark/coremark_rv32im.elf include the m-extension, note the 'm' before the '.elf'. None of the other files have an m-extension supported version. You must be in the 'Design' folder to compile any files.
 
 Example:
 ```
@@ -81,7 +81,10 @@ the timing report looks like this:
 ![timing-report](timing-report.png)
 It shows you the critical path (it's cut off here), the time allowed for the critical path to resolve, and the time it actually took for the critical path to resolve (the difference between what we allow and what happened is the slack).
 
-[show area analysis report]
+The area report looks like this:
+
+![area-report](area-report.png)
+It shows you the area breakdown in terms of combinational, non-combinational, total and a further breakdown by module (it's cut off here).
 
 To generate the power analysis, you must specify which program you are analyzing the power for:
 
@@ -89,7 +92,10 @@ To generate the power analysis, you must specify which program you are analyzing
 make report_power ASM=testcode/comp/comp2_rv32i.elf
 ```
 
-[show power analysis report]
+The power report will show:
+
+![power-report](power-report.png)
+The top and bottom are cutoff to save space. Our design's power is overwhelmingly consumed by the caches, specifically the 4-way shared L2 cache.
 
 
 # Details:
@@ -100,6 +106,9 @@ The icache and dcache are both direct mapped with 32 byte cachelines with 16 lin
 
 ### Arbiter
 
+The arbiter connects to the 'cacheline adapter' which itself connects to the main memory. The arbiter connects the icache or dcache to memory whenever either makes a request to memory. If they both request access to memory at the same time, the arbiter will prioritize the dcache. The choice to prioritize the dcache is arbitrary. The cacheline adapter accepts 4 bursts of 8 bytes of data, combines them, and sends the resulting 32 bytes of data to the arbiter. Here is the state machine for the arbiter:
+
+![arbiter_states](arbiter_state_machine.png)
 
 ### 5 Stage Pipeline
 
@@ -126,7 +135,7 @@ The icache and dcache are both direct mapped with 32 byte cachelines with 16 lin
 [show block diagram here]
 
 
-# Performance Analysis and Design Evolution:
+# Performance Analysis and Design Evolution
 
 
 
