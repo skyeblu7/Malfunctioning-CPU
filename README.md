@@ -102,24 +102,31 @@ The top and bottom are cutoff to save space. Our design's power is overwhelmingl
 
 ### icache/dcache
 
-The icache and dcache are both direct mapped with 32 byte cachelines with 16 lines, giving a total size of 512 bytes. The caches are separate which allow simultaneous access by the cpu. The icache is used by the instruction fetch stage and the dcache is used by the memory stage. Both caches are connected to the arbiter which determines which cache accesses memory and resolves simultaneous memory requests.
+The icache and dcache are both direct mapped with 32 byte cachelines with 16 lines, giving a total size of 512 bytes. The caches are separate which allow simultaneous access by the cpu. The icache is used by the instruction fetch stage and the dcache is used by the memory stage. Both caches are connected to the arbiter which facilitates physical memory accesses and resolves simultaneous memory requests.
 
 ### Arbiter
 
-The arbiter connects to the 'cacheline adapter' which itself connects to the main memory. The arbiter connects the icache or dcache to memory whenever either makes a request to memory. If they both request access to memory at the same time, the arbiter will prioritize the dcache. The choice to prioritize the dcache is arbitrary. The cacheline adapter accepts 4 bursts of 8 bytes of data, combines them, and sends the resulting 32 bytes of data to the arbiter. Here is the state machine for the arbiter:
+The arbiter connects the icache or dcache to the L2 cache whenever there is a memory request from the cpu. If both the icache and dcache request access to memory at the same time, the arbiter will prioritize the dcache. The choice to prioritize the dcache is arbitrary. Here is the state machine for the arbiter:
 
 ![arbiter_states](arbiter_state_machine.png)
 
 ### 5 Stage Pipeline
 
+Our pipeline includes an instruction fetch stage [IF], an instruction decode stage [ID], an execute stage [EX], a memory stage [MEM] and a write back stage [WB]. There are four pipeline registers, one between each stage, which store all values passed to the next stage. We also have a hazard detection unit that stalls the pipeline on cache misses or when the multiplier is executing and adds bubbles to the pipeline when there is a read-after-write-from-memory dependency or a branch misprediction. We have a forwarding unit as well to send correct values to the EX stage when instructions have read-after-write-to-register dependencies.
 
+[add picture of pipeline datapath with hazard detection and forwarding]
 
 ### L2 Cache
 
+The L2 cache is 4-way set associative using the pLRU replacement policy. Each line is 32 bytes and there are 16 sets, making it 2 KB large. It is a shared cache, storing cachlines for the icache and dcache. the L2 cache connects to the 'cacheline adapter' which itself connects to the main memory. The cacheline adapter accepts 4 bursts of 8 bytes of data, combines them, and sends the resulting 32 bytes of data to the L2 cache. 
 
+[picture of L2 cache]
 
 ### Branch Prediction
 
+The branch predictor implemented in this design uses a local branch history table (LBHT), a direction prediction table (DPT) and a branch target buffer (BTB). The LBHT is indexed by bits [6:2] of the PC, which gives us 32 entries in the LBHT. Each entry stores 5 bits of branch history and itself is used to index into the direction prediction table (DPT). This also gives us 32 entries in the DPT. Each entry of the DPT stores a 2-bit saturation counter where 00 = strongly not taken, 01 = weakly not taken, 10 = weakly taken, 11 = strongly taken. The BTB stores the target branch address for each branch instruction the cpu comes accross. Bits [7:2] are used to index into the BTB, giving the BTB 64 entries. When the DPT predicts 'taken' and there is a BTB hit, then we take the target prediction form the BTB as the next instruction address.
+
+![branch-prediction](branch_prediction.png)
 
 ### M-Extension
 
