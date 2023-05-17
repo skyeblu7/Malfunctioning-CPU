@@ -144,20 +144,39 @@ To help us measure the performance gains and also ensure that our features are a
 
 ![performance-counters](performance_counters.png)
 
-
 ### Detailed Datapath
-
 
 [show block diagram here]
 
-
 # Performance Analysis and Design Evolution
 
+The performance of the cpu is based on high speeds and low power. The equation used to evaluate this performance is P\*D^2\*(100/fmax)^2 where P is the average power usage, D is the average execution time, and fmax is the maximum frequency.
 
+We tracked speeds between several different versions of the cpu in it's development as shown:
+
+![performance-by-program](performance_by_program.png)
+
+First an L2 cache was added, which was only 2-way and it was compared to the base 5-stage pipeline. It was then changed to be 4-way as the massive increase in performance justified the increase in power. Additional features were added on top of the 4-way L2 cache version. Initially the design included a prefetcher, but it was not implemented correctly and decreased performance. It was a basic prefetcher that requested the next block after a memory request. Since it is a shared L2 cache, it is thought that a lot of pollution was generated in the cache as a result of dcache memory accesses, which are not well predicted by the (i+1)th block of memory. For this reason the prefetcher was removed from the design.
+Power was also analyzed, but only against one program:
+
+![power-cp3](power_cp3.png)
+
+Initially the cache sizes only had 8 entries each. But after collecting the performance results shown above, the cache sizes were doubled to the 16 entries each that they are now. The concern was that the increase in power would offset the gain in performance. For this reason, performance results were collected between normal sized caches and double sized caches when optimizing the maximum frequency. These results are shown below:
+
+![fmax-raw](fmax_raw.png)
+
+Curiously, Synopsys's synthesis tools were able to optimize the power usage for the larger caches better than the smaller caches, resulting in lower power usage at higher frequencies for the larger cache design compared to the smaller cache design. The actual scores using the performance metric equation are calculated using the data above and are shown in the following table:
+
+![scores](scores.png)
+
+The lowest number under the score column is the best design under the conditions tested. This is also the design on this repo.
 
 # Improvement Possibilities
 
-
+1) A victim cache for both the icache and dcache. This fully associative cache will hold all evicted cachelines just in case they are needed again. 
+2) Some kind of prefetcher, probably a strided prefetcher. Since there is a shared L2 cache, a strided prefetcher would make prefetching predictions based on the calculated stride from previously used blocks. This could reduce the pollution problems that were encounted from using an i+1 prefetcher.
+3) A more advanced multiplier. Instead of the basic add-shift multiplier, a Wallace Tree multiplier would calculate the product more efficiently, reducing the number of stalls caused by the multiplier. 
+4) The C-extension. The C-extension allows instructions to be stored in a 16-bit form. This reduction in size allows more instructions to be stored in the caches, thus reducing the total number of cache misses.
 
 <!-- ACKNOWLEDGEMENTS -->
 # Acknowledgements
