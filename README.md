@@ -17,6 +17,7 @@
   * [Performance Counters](#performance-counters)
   * [Detailed Datapath](#detailed-datapath)
 * [Performance Analysis and Design Evolution](#performance-analysis-and-design-evolution)
+* [Ranking](#ranking)
 * [Improvement Possibilities](#improvement-possibilities)
 * [Acknowledgements](#acknowledgements)
 
@@ -170,6 +171,18 @@ Curiously, Synopsys's synthesis tools were able to optimize the power usage for 
 ![scores](scores.png)
 
 The lowest number under the score column is the best design under the conditions tested. This is also the design on this repo.
+
+# Ranking
+
+In both the class competition and the coremark competition, this design came in 4th place.
+
+Class Competition:
+
+![class](class.png)
+
+Coremark Competition:
+
+![coremark](coremark.png)
 
 # Improvement Possibilities
 
