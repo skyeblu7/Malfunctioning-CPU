@@ -14,7 +14,7 @@
   * [L2 Cache](#l2-cache)
   * [Branch Prediction](#branch-prediction)
   * [M-Extension](#m-extension)
-  * [Performance Metrics](#performance-metrics)
+  * [Performance Counters](#performance-counters)
   * [Detailed Datapath](#detailed-datapath)
 * [Performance Analysis and Design Evolution](#performance-analysis-and-design-evolution)
 * [Improvement Possibilities](#improvement-possibilities)
@@ -78,7 +78,7 @@ make synth
 
 the timing report looks like this:
 
-![timing-report](timing-report.png)
+![timing-report](timing-report-1.png)
 It shows you the critical path (it's cut off here), the time allowed for the critical path to resolve, and the time it actually took for the critical path to resolve (the difference between what we allow and what happened is the slack).
 
 The area report looks like this:
@@ -128,15 +128,24 @@ The branch predictor implemented in this design uses a local branch history tabl
 
 ![branch-prediction](branch_prediction.png)
 
+The Branch predictor and BTB are separate elements in the datapath. Both are connected to the IF stage, which uses them to predict the next instruction on a branch, and the EX stage, which determines if the prediction was correct or not. If it is correct, the DPT and LBHT are updated. If it is incorrect, the DPT and LBHT are updated but the hazard detection module also clears the instructions in the IF and ID stage. Here is a diagram that shows more clearly the connections in our datapath:
+
+![bp-datapath](bp_datapath.png)
+
 ### M-Extension
 
+The M-Extension adds 8 more instructions: MUL, MULH, MULHSU, MULHU, DIV, DIVU, REM and REMU. When either the multiplier or the divider is working, the whole pipeline is stalled until the resp signal from the M_EXT module is recieved. The multiplier is a basic add-shift design, adding a shifted version of the multiplicant for each '1' in the multiplier to the product. Here is a diagram showing how the multiplier is connected:
 
-### Performance Metrics
+![m-extension](m_extension.png)
+
+### Performance Counters
+
+To help us measure the performance gains and also ensure that our features are actually working correctly, we added performance counters to the branch prediction, caches and general stalling (through pipeline stalls or bubbles). The following image shows the specific metrics that are tracked:
+
+![performance-counters](performance_counters.png)
 
 
-
-
-### Detailed Datapath:
+### Detailed Datapath
 
 
 [show block diagram here]
