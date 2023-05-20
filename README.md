@@ -119,7 +119,7 @@ Our pipeline includes an instruction fetch stage [IF], an instruction decode sta
 
 The L2 cache is 4-way set associative using the pLRU replacement policy. Each line is 32 bytes and there are 16 sets, making it 2 KB large. It is a shared cache, storing cachlines for the icache and dcache. the L2 cache connects to the 'cacheline adapter' which itself connects to the main memory. The cacheline adapter accepts 4 bursts of 8 bytes of data, combines them, and sends the resulting 32 bytes of data to the L2 cache. 
 
-[picture of L2 cache]
+![4-way-L2-cache](4-way-L2-cache.png)
 
 ### Branch Prediction
 
